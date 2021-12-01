@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # third apps
     'django_extensions',
     'debug_toolbar',
+    'bootstrap4',
     # local apps
     'blog1',
     'instagram',
@@ -64,7 +65,10 @@ ROOT_URLCONF = 'vksk0258.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # file system template loader
+            os.path.join(BASE_DIR, 'vksk0258', 'templates'), # vksk0258폴더 밑에 경로에 템플릿을 저장
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

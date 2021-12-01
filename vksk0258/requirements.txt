@@ -2,3 +2,4 @@ django
 pillow
 django-extensinos
 django-debug-toolbar
+django-bootstrap4
