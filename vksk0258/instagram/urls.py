@@ -18,6 +18,8 @@ urlpatterns = [
     path('', views.post_list),
     path('<int:pk>/', views.post_detail),
     #re_path(r'(?P<pk>)\d+/$', views.post_detail), # path('<int:pk>/', views.post_detail)와 기능적으로 같다
-    path('archives/<year:year>/', views.archives_year), # register_converter를 이용한 url
+    # path('archives/<year:year>/', views.archives_year), # register_converter를 이용한 url
     #re_path(r'archives/(?P<year>\d{4})/', views.archives_year),
+
+    path('archive/', views.post_archive, name='post_archive'),
 ]

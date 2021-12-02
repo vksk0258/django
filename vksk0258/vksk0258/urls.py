@@ -21,11 +21,11 @@ from django.views.generic import TemplateView,RedirectView
 import debug_toolbar
 
 urlpatterns = [
-    # path('', TemplateView.as_view(template_name='root.html'), name='root'),
-    path('', RedirectView.as_view(
-        # url='/instagram/'
-        pattern_name='instagram:post_list', # app_name을 설정해줘야한다.
-    ), name='root'),
+    path('', TemplateView.as_view(template_name='root.html'), name='root'),
+    # path('', RedirectView.as_view(
+    #     # url='/instagram/'
+    #     pattern_name='instagram:post_list', # app_name을 설정해줘야한다.
+    # ), name='root'),
     path('admin/', admin.site.urls),
     path('instagram/', include('instagram.urls')),
     path('accounts/', include('accounts.urls')),
