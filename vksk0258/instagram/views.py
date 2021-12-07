@@ -2,16 +2,18 @@ from django.utils.decorators import method_decorator
 from django.http import HttpRequest, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView,DetailView,ArchiveIndexView
+from django.views.generic.dates import YearArchiveView
 from .models import Post
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # CBV방식으로 post_list 구현하기
 # post_list = login_required(ListView.as_view(model=Post, paginate_by=10))
 
-@method_decorator(login_required, name='dispatch')
-class PostListView(ListView):
+# @method_decorator(login_required, name='dispatch')
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
-    paginated_by = 10
+    paginate_by = 10
 
 post_list = PostListView.as_view()
      
@@ -58,5 +60,7 @@ post_detail = PostDetailView.as_view()
 # def archives_year(request, year):
 #     return HttpResponse(f"{year}년")
 
-post_archive = ArchiveIndexView.as_view(model=Post, date_field='created_at')
+post_archive = ArchiveIndexView.as_view(model=Post, date_field='created_at', paginate_by=10)
+
+post_archive_year = YearArchiveView.as_view(model=Post, date_field='created_at')
     

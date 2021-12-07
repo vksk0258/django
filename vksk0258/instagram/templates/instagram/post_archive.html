@@ -4,4 +4,6 @@
 
 <h2>date_list</h2>
 
-{{ date_list }}
+{% for date in date_list %}
+    {{ date.year }} {% comment %} |는 함수에 대해서 필터로 사용 {% endcomment %}
+{% endfor %}
