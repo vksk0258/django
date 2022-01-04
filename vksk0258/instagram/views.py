@@ -1,11 +1,25 @@
 from django.utils.decorators import method_decorator
 from django.http import HttpRequest, HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView,DetailView,ArchiveIndexView
 from django.views.generic.dates import YearArchiveView
 from .models import Post
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import PostForm
+
+def post_new(request):
+    if request.method =='POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save()
+            return redirect(post)
+    else:
+        form = PostForm()
+        
+    return render(request, 'instagram/post_form.html',{
+        'form': form,
+    })
 
 # CBV방식으로 post_list 구현하기
 # post_list = login_required(ListView.as_view(model=Post, paginate_by=10))

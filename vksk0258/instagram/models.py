@@ -1,10 +1,13 @@
 from django.db import models
+from django.core.validators import MinLengthValidator
 from django.conf import settings
 from django.urls import reverse
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    message = models.TextField()
+    message = models.TextField(
+        validators=[MinLengthValidator(10)]
+    )
     photo = models.ImageField(blank=True, upload_to='instagram/post/%Y/%m/%d') # pip install pillow 설치 이미지처리 할때 사용 이미지같은 경우 경로만 db에 저장되고 이미지는 파일스토리지에 저장된다
                                                                                # upload to는 파일을 정리해서 저장할 때 사용
     is_publish = models.BooleanField(default=False, verbose_name='공개여부')
