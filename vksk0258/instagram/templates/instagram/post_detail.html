@@ -4,4 +4,12 @@
     <img src="{{ post.photo.url}}" />
 {% endif%}
 
-{{ post.message }}
+{{ post.message|linebreaks }}
+
+<a href="{% url 'instagram:post_list' %}" class="btn btn-primary">
+    목록
+</a>
+
+<a href="{% url 'instagram:post_edit' post.pk %}">
+    수정
+</a>

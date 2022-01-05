@@ -4,15 +4,20 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView,DetailView,ArchiveIndexView
 from django.views.generic.dates import YearArchiveView
 from .models import Post
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
 
+
+@login_required
 def post_new(request):
     if request.method =='POST':
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+            post.author = request.user # 현재 로그인 User Instance
+            post.save()
             return redirect(post)
     else:
         form = PostForm()
@@ -21,6 +26,26 @@ def post_new(request):
         'form': form,
     })
 
+@login_required
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    # 작성자 Check Tip
+    if post.author != request.user:
+        messages.error(request, '작성자만 수정할 수 있습니다.')
+        return redirect(post)
+    
+    if request.method =='POST':
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save()
+            return redirect(post)
+    else:
+        form = PostForm(instance=post)
+        
+    return render(request, 'instagram/post_form.html',{
+        'form': form,
+    })
 # CBV방식으로 post_list 구현하기
 # post_list = login_required(ListView.as_view(model=Post, paginate_by=10))
 
